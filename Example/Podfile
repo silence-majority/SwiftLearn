@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SwiftLearn_Example' do
+  pod 'SwiftLearn', :path => '../'
+
+  target 'SwiftLearn_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
