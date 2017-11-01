@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		313648CA1FA729FE00DAB865 /* SegmentSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313648C91FA729FE00DAB865 /* SegmentSliderView.swift */; };
+		3143E8F31FA1DFE600E19765 /* SecondTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143E8F21FA1DFE600E19765 /* SecondTableViewController.swift */; };
+		3166FD281FA95B0500A80BB5 /* XBSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3166FD271FA95B0500A80BB5 /* XBSegmentControl.swift */; };
+		3166FD2A1FA9B63300A80BB5 /* XBSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3166FD291FA9B63300A80BB5 /* XBSegmentViewController.swift */; };
+		3168AAA31FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3168AAA21FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift */; };
+		31FB2C031FA6D91600269FCE /* BasePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB2C021FA6D91600269FCE /* BasePopView.swift */; };
 		3C3529B77336E00BB3C7206A /* Pods_SwiftLearn_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4741E4287F8CAA311B40E13 /* Pods_SwiftLearn_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -28,6 +34,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		313648C91FA729FE00DAB865 /* SegmentSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentSliderView.swift; sourceTree = "<group>"; };
+		3143E8F21FA1DFE600E19765 /* SecondTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondTableViewController.swift; sourceTree = "<group>"; };
+		3166FD271FA95B0500A80BB5 /* XBSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSegmentControl.swift; sourceTree = "<group>"; };
+		3166FD291FA9B63300A80BB5 /* XBSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSegmentViewController.swift; sourceTree = "<group>"; };
+		3168AAA21FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYLargeTitleTableViewController.swift; sourceTree = "<group>"; };
+		31FB2C021FA6D91600269FCE /* BasePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePopView.swift; sourceTree = "<group>"; };
 		3C2BC125FA141AB38F84C096 /* Pods-SwiftLearn_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftLearn_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftLearn_Tests/Pods-SwiftLearn_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		487576365BA953EC3550AB75 /* Pods_SwiftLearn_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftLearn_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* SwiftLearn_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftLearn_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,12 +53,12 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		835E6BB834512A9C8D222EB6 /* Pods-SwiftLearn_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftLearn_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftLearn_Example/Pods-SwiftLearn_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		AE3155BA95008E6F4DC29A6E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		AE3155BA95008E6F4DC29A6E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		B4741E4287F8CAA311B40E13 /* Pods_SwiftLearn_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftLearn_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7D4BEFD7B0BECAE81027607 /* SwiftLearn.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = SwiftLearn.podspec; path = ../SwiftLearn.podspec; sourceTree = "<group>"; };
+		D7D4BEFD7B0BECAE81027607 /* SwiftLearn.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftLearn.podspec; path = ../SwiftLearn.podspec; sourceTree = "<group>"; };
 		E885BB755BD08A0200EC91F3 /* Pods-SwiftLearn_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftLearn_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftLearn_Example/Pods-SwiftLearn_Example.release.xcconfig"; sourceTree = "<group>"; };
 		FC59081EB832CC3E2D8540D3 /* Pods-SwiftLearn_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftLearn_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftLearn_Tests/Pods-SwiftLearn_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		FD6F7A7444594EA64C7C9BB5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		FD6F7A7444594EA64C7C9BB5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,10 +127,16 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				31FB2C021FA6D91600269FCE /* BasePopView.swift */,
+				3143E8F21FA1DFE600E19765 /* SecondTableViewController.swift */,
+				313648C91FA729FE00DAB865 /* SegmentSliderView.swift */,
+				3166FD271FA95B0500A80BB5 /* XBSegmentControl.swift */,
+				3166FD291FA9B63300A80BB5 /* XBSegmentViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				3168AAA21FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift */,
 			);
 			name = "Example for SwiftLearn";
 			path = SwiftLearn;
@@ -215,10 +233,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = UE3A9NVXE8;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = UE3A9NVXE8;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -362,7 +382,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				3168AAA31FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift in Sources */,
+				3166FD281FA95B0500A80BB5 /* XBSegmentControl.swift in Sources */,
+				3143E8F31FA1DFE600E19765 /* SecondTableViewController.swift in Sources */,
+				3166FD2A1FA9B63300A80BB5 /* XBSegmentViewController.swift in Sources */,
+				31FB2C031FA6D91600269FCE /* BasePopView.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				313648CA1FA729FE00DAB865 /* SegmentSliderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,7 +475,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -495,7 +521,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -508,11 +534,14 @@
 			baseConfigurationReference = 835E6BB834512A9C8D222EB6 /* Pods-SwiftLearn_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = UE3A9NVXE8;
 				INFOPLIST_FILE = SwiftLearn/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -523,11 +552,14 @@
 			baseConfigurationReference = E885BB755BD08A0200EC91F3 /* Pods-SwiftLearn_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = UE3A9NVXE8;
 				INFOPLIST_FILE = SwiftLearn/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -537,6 +569,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC59081EB832CC3E2D8540D3 /* Pods-SwiftLearn_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UE3A9NVXE8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -549,6 +582,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -558,6 +592,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3C2BC125FA141AB38F84C096 /* Pods-SwiftLearn_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UE3A9NVXE8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -566,6 +601,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

@@ -1,0 +1,33 @@
+{
+  "name": "SwiftLearn",
+  "version": "0.1.0",
+  "summary": "A short description of SwiftLearn.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/silence-majority/SwiftLearn",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "silence-majority": "931968649@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/silence-majority/SwiftLearn.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SwiftLearn/Classes/**/*",
+  "dependencies": {
+    "Moya": [
+
+    ],
+    "Masonry": [
+
+    ],
+    "SnapKit": [
+
+    ]
+  }
+}

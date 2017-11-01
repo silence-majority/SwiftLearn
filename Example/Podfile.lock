@@ -1,0 +1,33 @@
+PODS:
+  - Alamofire (4.5.1)
+  - Masonry (1.1.0)
+  - Moya (10.0.0):
+    - Moya/Core (= 10.0.0)
+  - Moya/Core (10.0.0):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Result (3.2.4)
+  - SnapKit (4.0.0)
+  - SwiftLearn (0.1.0):
+    - Masonry
+    - Moya
+    - SnapKit
+
+DEPENDENCIES:
+  - SwiftLearn (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftLearn:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  Moya: adb58b0f4e58430db43cc6e2f6ebab1836501186
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftLearn: 962dc785074ad85c155ac5ce2e49a9b4a1190237
+
+PODFILE CHECKSUM: ae49a5d20f50e38c300d21063b409961843f385b
+
+COCOAPODS: 1.0.1

@@ -1,0 +1,6 @@
+framework module SwiftLearn {
+  umbrella header "SwiftLearn-umbrella.h"
+
+  export *
+  module * { export * }
+}

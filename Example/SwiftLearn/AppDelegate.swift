@@ -7,7 +7,9 @@
 //
 
 import UIKit
-
+import SwiftLearn
+@available(iOS 11.0, *)
+@available(iOS 11.0, *)
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,7 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    
+        window = UIWindow(frame: UIScreen.main.bounds)
+
+        let vca = ViewController()
+        let vcb = ViewController()
+        let vcc = ViewController()
+        
+        let viewController = XBSegmentViewController()
+        viewController.subViewControllers = [vca,vcb,vcc]
+        viewController.subVCTitles = ["我的老师","我的同学","我的群聊"]
+        let nav = UINavigationController(navigationBarClass:nil, toolbarClass: nil)
+        nav.viewControllers = [viewController]
+        
+        window?.rootViewController = nav
+        
         return true
     }
 
