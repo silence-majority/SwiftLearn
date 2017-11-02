@@ -21,7 +21,10 @@ class XBSegmentViewController: UIViewController,XBSegmentControlDeletate,UIScrol
         super.viewDidLoad()
         self.navigationItem.title = "通讯录"
         
-        segmentControl = XBSegmentControl(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 50), titles: subVCTitles)
+//        segmentControl = XBSegmentControl(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 50), titles: subVCTitles, style: XBSegmentControlStyle.simple)
+        
+        segmentControl = XBSegmentControl(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 50), titles: subVCTitles, style: XBSegmentControlStyle.complex(segmentInterSpace: 24, foldUnable: true))
+
         segmentControl.delegete = self
         self.view.addSubview(segmentControl)
         segmentControl.horizontalMargin = 24

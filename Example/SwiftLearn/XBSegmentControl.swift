@@ -13,6 +13,11 @@ protocol XBSegmentControlDeletate{
      func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didSelectIndex index : Int )
 }
 
+enum XBSegmentControlStyle{
+    case simple
+    case complex(segmentInterSpace:CGFloat, foldUnable:Bool)
+}
+
 enum XBSegmentControlSliderSizeStyle{
     case constant(size:CGSize)
     case fitTitle
@@ -32,6 +37,11 @@ class XBSegmentControl: UIView {
     
     var delegete : XBSegmentControlDeletate!
     
+    var segmentControlStyle = XBSegmentControlStyle.simple
+    var foldBtn : UIButton?
+    
+    var scrollView = UIScrollView()
+    
     var titleArray = [String]()
     var titleFont : UIFont = UIFont.systemFont(ofSize: 14)
     var titleNormalColor : UIColor = .black
@@ -47,24 +57,43 @@ class XBSegmentControl: UIView {
     private var sliderView = UIView()
     private var silderViewSizeStyle : XBSegmentControlSliderSizeStyle = .constant(size: CGSize(width: 15, height: 3))
     
-    init(frame: CGRect,titles:[String]) {
+    init(frame: CGRect,titles:[String],style:XBSegmentControlStyle) {
         super.init(frame: frame)
         titleArray = titles
+        segmentControlStyle = style                                                                                                                                                        
         self.backgroundColor = .white
+        
+        scrollView = UIScrollView(frame: self.bounds)
+        scrollView.showsHorizontalScrollIndicator = false
+        self.addSubview(scrollView)
         for index in 0...titleArray.count-1{
             let segmentBtn = UIButton()
             segmentBtn.tag = baseTag + index
             segmentBtn.setTitle(titleArray[index], for: .normal)
             segmentBtn.addTarget(self, action: #selector(segmentBtnAction(sender:)), for: .touchUpInside)
-            self.addSubview(segmentBtn)
+            scrollView.addSubview(segmentBtn)
         }
-        self.addSubview(sliderView)
+        scrollView.addSubview(sliderView)
+        
+        switch segmentControlStyle {
+        case .simple:break
+        case.complex(_,let foldUnable):
+            if(foldUnable){
+                foldBtn = UIButton()
+                self.addSubview(foldBtn!)
+                foldBtn?.backgroundColor = .white
+                foldBtn!.setImage(UIImage(named: "键盘"), for: .normal)
+                foldBtn?.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+            }
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         titleMaxWidth = self.getSegmentMaxWidth(titleArr: titleArray,font: titleFont)
         segmentInterSpace = self.getSegmentInterSpace()
+
+        scrollView.contentSize = self.getScrollViewContentSize()
         
         for index in 0...titleArray.count-1{
             let segmentBtn = viewWithTag(baseTag+index) as! UIButton
@@ -80,18 +109,23 @@ class XBSegmentControl: UIView {
                 segmentBtn.setTitleColor(titleFocusColor, for: .normal)
                 switch silderViewSizeStyle{
                 case .constant(let size):
+                    sliderView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+                    sliderView.center = CGPoint(x: horizontalMargin+titleMaxWidth/2, y: self.frame.height-5-size.height)
+                    
                     sliderView.backgroundColor = titleFocusColor
                     sliderView.layer.cornerRadius = size.height/2
-                    sliderView.snp.removeConstraints()
-                    sliderView.snp.makeConstraints({ (make) in
-                        make.size.equalTo(size)
-                        make.bottom.equalTo(-5)
-                        make.centerX.equalTo(segmentBtn.snp.centerX)
-                    })
                 default:
                     fatalError("自适应还没有实现")
                 }
             }
+        }
+        
+        if (foldBtn != nil){
+            foldBtn?.snp.makeConstraints({ (make) in
+                make.size.equalTo(CGSize(width:50,height:40))
+                make.centerY.equalTo(self)
+                make.right.equalTo(self)
+            })
         }
     }
     
@@ -119,15 +153,42 @@ class XBSegmentControl: UIView {
     
     //获取segment间的间距
     private func getSegmentInterSpace() -> CGFloat{
-        return (self.frame.width - horizontalMargin*2 - titleMaxWidth*(CGFloat)(titleArray.count))/(CGFloat)(titleArray.count-1)
+        switch  segmentControlStyle{
+        case .simple:
+             return (self.frame.width - horizontalMargin*2 - titleMaxWidth*(CGFloat)(titleArray.count))/(CGFloat)(titleArray.count-1)
+        case .complex(let segmentInterSpace, _):
+            return segmentInterSpace
+        }
     }
     
+    //获取scrollview的ContentSize
+    private func getScrollViewContentSize() -> CGSize{
+        switch  segmentControlStyle{
+        case .simple:
+            return self.frame.size
+        case .complex(let segmentInterSpace, let foldUnable):
+            let width = horizontalMargin*2 + titleMaxWidth*CGFloat(titleArray.count) + segmentInterSpace*CGFloat(titleArray.count-1)
+            if foldUnable{
+                 return CGSize(width: width+50, height: self.frame.height)
+            }
+            return CGSize(width: width, height: self.frame.height)
+        }
+    }
+    
+    //点击按钮的事件
     @objc private func segmentBtnAction(sender:Any){
         let segmentBtn = sender as! UIButton
         if((segmentBtn.tag-baseTag) != focusIndex){
+            //代理出去
+            delegete.xbSegmentControl(self, didSelectIndex: segmentBtn.tag-baseTag)
+            
+            //设置ScrollView的ContentOffset，使得选中的按钮能够居中显示
+            self.updateScrollViewContentOffset(index: segmentBtn.tag-baseTag)
+            
+            //选中和取消选中 title颜色的切换
+            self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
+            self.setSegmentStyle(index: segmentBtn.tag-baseTag, focusStyle: .focus)
             focusIndex = segmentBtn.tag-baseTag
-            delegete.xbSegmentControl(self, didSelectIndex: focusIndex)
-//            self.setNeedsLayout()
         }
     }
     
@@ -137,27 +198,24 @@ class XBSegmentControl: UIView {
         center.x = horizontalMargin + titleMaxWidth/2 + percent*(titleMaxWidth+segmentInterSpace)
         sliderView.center = center
         
-        //配置title的颜色
-        let offset = percent - CGFloat(focusIndex)
-        if fabs(offset) > 0.5{
-            self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
-            if offset > 0{
-                focusIndex += 1
-            }else{
-                focusIndex -= 1
-            }
-            
-            switch source{
-            case .touchButton(let buttonIndex):
-                if buttonIndex == focusIndex{
-                    self.setSegmentStyle(index: focusIndex, focusStyle: .focus)
+        //设置title颜色
+        switch source {
+        case .touchButton( _): break //点击按钮的源已经在segmentBtnAction里处理
+        case .slideScrollView:
+            let offset = percent - CGFloat(focusIndex)
+            if fabs(offset) > 0.5{
+                self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
+                if offset > 0{
+                    focusIndex += 1
+                }else{
+                    focusIndex -= 1
                 }
-            case .slideScrollView:
                 self.setSegmentStyle(index: focusIndex, focusStyle: .focus)
+                self.updateScrollViewContentOffset(index: focusIndex)
             }
         }
     }
-    
+
     private func setSegmentStyle(index:Int, focusStyle:XBSegmentControlSegmentStyle){
         let segmentBtn = viewWithTag(baseTag+index) as! UIButton
         switch focusStyle {
@@ -168,4 +226,22 @@ class XBSegmentControl: UIView {
         }
     }
     
+    private func updateScrollViewContentOffset(index:Int){
+        let segmentBtn = viewWithTag(index+baseTag) as! UIButton
+        let leftCondition = segmentBtn.center.x  > self.frame.width/2
+        let rightCondition = scrollView.contentSize.width-segmentBtn.center.x > self.frame.width/2
+        
+        if(leftCondition && !rightCondition){
+            let contentOffsetX = scrollView.contentSize.width - self.frame.width
+            if(scrollView.contentOffset.x != contentOffsetX){
+                scrollView.setContentOffset(CGPoint(x:contentOffsetX,y:0), animated: true)
+            }
+        }else if(!leftCondition && rightCondition){
+            if(scrollView.contentOffset.x != 0){
+                scrollView.setContentOffset(CGPoint(x:0,y:0), animated: true)
+            }
+        }else{
+            scrollView.setContentOffset(CGPoint(x:(segmentBtn.center.x - self.frame.width/2),y:0), animated: true)
+        }
+    }
 }

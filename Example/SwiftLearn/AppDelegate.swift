@@ -24,11 +24,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vcb = ViewController()
         let vcc = ViewController()
         let vcd = ViewController()
+        let vce = ViewController()
+        let vcf = ViewController()
+        let vch = ViewController()
+        let vci = ViewController()
+        let vcg = ViewController()
+        let vck = ViewController()
+
 
         
         let viewController = XBSegmentViewController()
-        viewController.subViewControllers = [vca,vcb,vcc,vcd]
-        viewController.subVCTitles = ["我的老师","我的同学","我的群聊","都是我的"]
+//        viewController.subVCTitles = ["我的老师","我的同学","我的群聊","都是我的"]
+//        viewController.subViewControllers = [vca,vcb,vcc,vcd]
+        
+        viewController.subViewControllers = [vca,vcb,vcc,vcd,vce,vcf,vch,vci,vcg,vck]
+        viewController.subVCTitles = ["语文","数学","英语","物理","化学","生物","政治","地理","历史","科学"]
+
         let nav = UINavigationController(navigationBarClass:nil, toolbarClass: nil)
         nav.viewControllers = [viewController]
         
