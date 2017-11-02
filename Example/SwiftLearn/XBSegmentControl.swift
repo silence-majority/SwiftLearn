@@ -23,7 +23,14 @@ enum XBSegmentControlSliderUpdateSourece{
     case slideScrollView
 }
 
+enum XBSegmentControlSegmentStyle{
+    case focus
+    case normal
+}
+
 class XBSegmentControl: UIView {
+    
+    var delegete : XBSegmentControlDeletate!
     
     var titleArray = [String]()
     var titleFont : UIFont = UIFont.systemFont(ofSize: 14)
@@ -35,12 +42,10 @@ class XBSegmentControl: UIView {
     private var segmentInterSpace : CGFloat = 0
     
     let baseTag : Int = 100
-    var focusIndex : Int = 0
+    private var focusIndex : Int = 0
     
-    var sliderView = UIView()
-    var silderViewSizeStyle : XBSegmentControlSliderSizeStyle = .constant(size: CGSize(width: 15, height: 3))
-    
-    var delegete : XBSegmentControlDeletate!
+    private var sliderView = UIView()
+    private var silderViewSizeStyle : XBSegmentControlSliderSizeStyle = .constant(size: CGSize(width: 15, height: 3))
     
     init(frame: CGRect,titles:[String]) {
         super.init(frame: frame)
@@ -75,7 +80,6 @@ class XBSegmentControl: UIView {
                 segmentBtn.setTitleColor(titleFocusColor, for: .normal)
                 switch silderViewSizeStyle{
                 case .constant(let size):
-                    print(size)
                     sliderView.backgroundColor = titleFocusColor
                     sliderView.layer.cornerRadius = size.height/2
                     sliderView.snp.removeConstraints()
@@ -85,7 +89,7 @@ class XBSegmentControl: UIView {
                         make.centerX.equalTo(segmentBtn.snp.centerX)
                     })
                 default:
-                    print("自适应还没有实现")
+                    fatalError("自适应还没有实现")
                 }
             }
         }
@@ -121,24 +125,22 @@ class XBSegmentControl: UIView {
     @objc private func segmentBtnAction(sender:Any){
         let segmentBtn = sender as! UIButton
         if((segmentBtn.tag-baseTag) != focusIndex){
-
             focusIndex = segmentBtn.tag-baseTag
-            
             delegete.xbSegmentControl(self, didSelectIndex: focusIndex)
 //            self.setNeedsLayout()
         }
     }
     
     func updateSlider(percent:CGFloat, source:XBSegmentControlSliderUpdateSourece){
-        print(source)
+        //设置滑块的位置
         var center : CGPoint = sliderView.center
         center.x = horizontalMargin + titleMaxWidth/2 + percent*(titleMaxWidth+segmentInterSpace)
         sliderView.center = center
         
+        //配置title的颜色
         let offset = percent - CGFloat(focusIndex)
         if fabs(offset) > 0.5{
-            let currentSegmentBtn = viewWithTag(baseTag+focusIndex) as! UIButton
-            currentSegmentBtn.setTitleColor(titleNormalColor, for: .normal)
+            self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
             if offset > 0{
                 focusIndex += 1
             }else{
@@ -148,13 +150,21 @@ class XBSegmentControl: UIView {
             switch source{
             case .touchButton(let buttonIndex):
                 if buttonIndex == focusIndex{
-                    let segmentBtn = viewWithTag(baseTag+focusIndex) as! UIButton
-                    segmentBtn.setTitleColor(titleFocusColor, for: .normal)
+                    self.setSegmentStyle(index: focusIndex, focusStyle: .focus)
                 }
             case .slideScrollView:
-                print("不做任何处理")
-                
+                self.setSegmentStyle(index: focusIndex, focusStyle: .focus)
             }
+        }
+    }
+    
+    private func setSegmentStyle(index:Int, focusStyle:XBSegmentControlSegmentStyle){
+        let segmentBtn = viewWithTag(baseTag+index) as! UIButton
+        switch focusStyle {
+        case .focus:
+            segmentBtn.setTitleColor(titleFocusColor, for: .normal)
+        case .normal:
+            segmentBtn.setTitleColor(titleNormalColor, for: .normal)
         }
     }
     
