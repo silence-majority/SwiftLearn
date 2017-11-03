@@ -7,24 +7,25 @@
 //
 
 import UIKit
+import SnapKit
 /*
  * animationId = 0  开始动画
  * animationId = 1  diamiss动画
  */
-typealias BasePopViewAnimationClosure = (_ animationId:Int)->Void?
+typealias BasePopViewAnimationClosure = (_ animationId:Int)->Void
 
 /*
  * eventID = 0  点击遮罩
  * 其他由子类定义
  */
-typealias BasePodViewEventClosure = (_ eventID : Int)->Void?
+typealias BasePodViewEventClosure = (_ eventID : Int)->Void
 
 class BasePopView: UIView {
     
     //点击背景隐藏
     var isDismissByTouchBackgrond : Bool!
-    //半透明的遮罩
-    var contentView : UIView!
+    //半透明的遮罩（curtain 窗帘遮罩）
+    var curtainView : UIView!
     //透明度
     var backgroundAlpha : CGFloat!
     //动画持续时间
@@ -36,19 +37,25 @@ class BasePopView: UIView {
     var eventClosure : BasePodViewEventClosure?
 
     override init(frame: CGRect) {
+
         isDismissByTouchBackgrond = true
         backgroundAlpha = 0.4
         animationDuration = 0.4
         
         super.init(frame: frame)
         
-        contentView = UIView(frame: self.frame)
-        contentView.backgroundColor = .black
-        contentView.alpha = 0
-        self.addSubview(contentView)
+        self.backgroundColor = UIColor.clear
+        
+        curtainView = UIView()
+        self.addSubview(curtainView)
+        curtainView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        curtainView.backgroundColor = .black
+        curtainView.alpha = 0
         
         dismissGesture = UITapGestureRecognizer(target: self, action: #selector(tapBackgroundAction))
-        contentView .addGestureRecognizer(dismissGesture)
+        curtainView.addGestureRecognizer(dismissGesture)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,8 +64,8 @@ class BasePopView: UIView {
     
     override func layoutSubviews() {
         UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
-            self.contentView.alpha = self.backgroundAlpha
-            if (self.animationClosure != nil){
+            self.curtainView.alpha = self.backgroundAlpha
+            if (self.animationClosure != nil){ //拆可选值方式1
                 self.animationClosure!(0)
             }
         }) { (completion) in
@@ -68,14 +75,20 @@ class BasePopView: UIView {
 
     func dismiss() {
         UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-            self.contentView.alpha = 0
+            self.curtainView.alpha = 0
+            if let closure = self.animationClosure{ //拆可选值方式2
+                closure(1)
+            }
         }) { (completion) in
+            if let eventClosure = self.eventClosure{
+                eventClosure(0)
+            }
             self.removeFromSuperview()
         }
     }
 
     
-    func setAnimationClosure(closure:@escaping BasePopViewAnimationClosure) -> Void {
+    func setAnimationClosure(closure:@escaping BasePopViewAnimationClosure){
         animationClosure = closure
     }
     
@@ -86,9 +99,6 @@ class BasePopView: UIView {
     @objc func tapBackgroundAction() {
         if isDismissByTouchBackgrond {
             self.dismiss()
-        }
-        if let closure = eventClosure{
-            closure(0)
         }
     }
 

@@ -12,6 +12,8 @@
 		3166FD281FA95B0500A80BB5 /* XBSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3166FD271FA95B0500A80BB5 /* XBSegmentControl.swift */; };
 		3166FD2A1FA9B63300A80BB5 /* XBSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3166FD291FA9B63300A80BB5 /* XBSegmentViewController.swift */; };
 		3168AAA31FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3168AAA21FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift */; };
+		31EF18591FAB36F700F18DB5 /* SubjectListPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF18581FAB36F700F18DB5 /* SubjectListPopView.swift */; };
+		31FAA4061FAC623100C426C7 /* XBSubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FAA4051FAC623100C426C7 /* XBSubjectCollectionViewCell.swift */; };
 		31FB2C031FA6D91600269FCE /* BasePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB2C021FA6D91600269FCE /* BasePopView.swift */; };
 		3C3529B77336E00BB3C7206A /* Pods_SwiftLearn_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4741E4287F8CAA311B40E13 /* Pods_SwiftLearn_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -39,6 +41,8 @@
 		3166FD271FA95B0500A80BB5 /* XBSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSegmentControl.swift; sourceTree = "<group>"; };
 		3166FD291FA9B63300A80BB5 /* XBSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSegmentViewController.swift; sourceTree = "<group>"; };
 		3168AAA21FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYLargeTitleTableViewController.swift; sourceTree = "<group>"; };
+		31EF18581FAB36F700F18DB5 /* SubjectListPopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectListPopView.swift; sourceTree = "<group>"; };
+		31FAA4051FAC623100C426C7 /* XBSubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XBSubjectCollectionViewCell.swift; sourceTree = "<group>"; };
 		31FB2C021FA6D91600269FCE /* BasePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePopView.swift; sourceTree = "<group>"; };
 		3C2BC125FA141AB38F84C096 /* Pods-SwiftLearn_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftLearn_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftLearn_Tests/Pods-SwiftLearn_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		487576365BA953EC3550AB75 /* Pods_SwiftLearn_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftLearn_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +132,8 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				31FB2C021FA6D91600269FCE /* BasePopView.swift */,
+				31EF18581FAB36F700F18DB5 /* SubjectListPopView.swift */,
+				31FAA4051FAC623100C426C7 /* XBSubjectCollectionViewCell.swift */,
 				3143E8F21FA1DFE600E19765 /* SecondTableViewController.swift */,
 				313648C91FA729FE00DAB865 /* SegmentSliderView.swift */,
 				3166FD271FA95B0500A80BB5 /* XBSegmentControl.swift */,
@@ -384,6 +390,8 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				3168AAA31FA2DB1F00CBD5FD /* XYLargeTitleTableViewController.swift in Sources */,
 				3166FD281FA95B0500A80BB5 /* XBSegmentControl.swift in Sources */,
+				31FAA4061FAC623100C426C7 /* XBSubjectCollectionViewCell.swift in Sources */,
+				31EF18591FAB36F700F18DB5 /* SubjectListPopView.swift in Sources */,
 				3143E8F31FA1DFE600E19765 /* SecondTableViewController.swift in Sources */,
 				3166FD2A1FA9B63300A80BB5 /* XBSegmentViewController.swift in Sources */,
 				31FB2C031FA6D91600269FCE /* BasePopView.swift in Sources */,

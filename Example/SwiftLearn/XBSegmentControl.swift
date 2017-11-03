@@ -10,7 +10,8 @@ import UIKit
 import SnapKit
 
 protocol XBSegmentControlDeletate{
-     func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didSelectIndex index : Int )
+    func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didSelectIndex index : Int )
+    func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didPressUnfoldBtnWithBtnStyle foldStyle : XBSegmentControlFoldStyle)
 }
 
 enum XBSegmentControlStyle{
@@ -33,12 +34,45 @@ enum XBSegmentControlSegmentStyle{
     case normal
 }
 
+enum XBSegmentControlFoldStyle{
+    case fold //折叠
+    case unfold //展开
+}
+
 class XBSegmentControl: UIView {
     
     var delegete : XBSegmentControlDeletate!
     
     var segmentControlStyle = XBSegmentControlStyle.simple
+    
     var foldBtn : UIButton?
+    var indicateLabel : UILabel?
+    var foldStyle : XBSegmentControlFoldStyle = .fold{
+        willSet(newTotal){
+            print("foldStyle将要改变: \(newTotal)")
+        }
+        didSet{
+            switch foldStyle{
+            case .fold:
+                foldBtn?.setImage(UIImage(named:"键盘"), for: .normal)
+                self.insertSubview(scrollView, belowSubview: foldBtn!)
+                indicateLabel?.removeFromSuperview()
+                indicateLabel = nil
+            case .unfold:
+                foldBtn?.setImage(UIImage(named:"添加"), for: .normal)
+                scrollView.removeFromSuperview()
+                indicateLabel = UILabel()
+                indicateLabel?.text = "请选择"
+                indicateLabel?.font = UIFont.systemFont(ofSize: 12)
+                indicateLabel?.textColor = .gray
+                self.addSubview(indicateLabel!)
+                indicateLabel?.snp.makeConstraints({ (make) in
+                    make.left.equalTo(16)
+                    make.centerY.equalTo(self)
+                })
+            }
+        }
+    }
     
     var scrollView = UIScrollView()
     
@@ -56,6 +90,10 @@ class XBSegmentControl: UIView {
     
     private var sliderView = UIView()
     private var silderViewSizeStyle : XBSegmentControlSliderSizeStyle = .constant(size: CGSize(width: 15, height: 3))
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     init(frame: CGRect,titles:[String],style:XBSegmentControlStyle) {
         super.init(frame: frame)
@@ -83,7 +121,13 @@ class XBSegmentControl: UIView {
                 self.addSubview(foldBtn!)
                 foldBtn?.backgroundColor = .white
                 foldBtn!.setImage(UIImage(named: "键盘"), for: .normal)
-                foldBtn?.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+                foldBtn?.addTarget(self, action: #selector(foldBtnAction), for: .touchUpInside)
+                
+                foldBtn?.snp.makeConstraints({ (make) in
+                    make.size.equalTo(CGSize(width:44,height:44))
+                    make.centerY.equalTo(self)
+                    make.right.equalTo(self)
+                })
             }
         }
     }
@@ -92,7 +136,19 @@ class XBSegmentControl: UIView {
         super.layoutSubviews()
         titleMaxWidth = self.getSegmentMaxWidth(titleArr: titleArray,font: titleFont)
         segmentInterSpace = self.getSegmentInterSpace()
-
+        
+        switch segmentControlStyle {
+        case .simple:
+            self.layoutSegmentsAndSlider()
+        case .complex(_, let foldUnable):
+            if(!(foldUnable && foldStyle == .unfold)){
+                self.layoutSegmentsAndSlider()
+            }
+        }
+        
+    }
+    
+    private func layoutSegmentsAndSlider(){
         scrollView.contentSize = self.getScrollViewContentSize()
         
         for index in 0...titleArray.count-1{
@@ -110,7 +166,7 @@ class XBSegmentControl: UIView {
                 switch silderViewSizeStyle{
                 case .constant(let size):
                     sliderView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-                    sliderView.center = CGPoint(x: horizontalMargin+titleMaxWidth/2, y: self.frame.height-5-size.height)
+                    sliderView.center = CGPoint(x: horizontalMargin+titleMaxWidth/2+(titleMaxWidth+segmentInterSpace)*CGFloat(focusIndex), y: self.frame.height-5-size.height)
                     
                     sliderView.backgroundColor = titleFocusColor
                     sliderView.layer.cornerRadius = size.height/2
@@ -119,18 +175,7 @@ class XBSegmentControl: UIView {
                 }
             }
         }
-        
-        if (foldBtn != nil){
-            foldBtn?.snp.makeConstraints({ (make) in
-                make.size.equalTo(CGSize(width:50,height:40))
-                make.centerY.equalTo(self)
-                make.right.equalTo(self)
-            })
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
     }
     
     //获取最长label的宽度 作为所有button的宽度
@@ -170,8 +215,9 @@ class XBSegmentControl: UIView {
             let width = horizontalMargin*2 + titleMaxWidth*CGFloat(titleArray.count) + segmentInterSpace*CGFloat(titleArray.count-1)
             if foldUnable{
                  return CGSize(width: width+50, height: self.frame.height)
+            }else{
+                 return CGSize(width: width, height: self.frame.height)
             }
-            return CGSize(width: width, height: self.frame.height)
         }
     }
     
@@ -189,6 +235,21 @@ class XBSegmentControl: UIView {
             self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
             self.setSegmentStyle(index: segmentBtn.tag-baseTag, focusStyle: .focus)
             focusIndex = segmentBtn.tag-baseTag
+        }
+    }
+    
+    @objc private func foldBtnAction(){
+        //展开这有一个入口 ： 点击按钮，foldStyle立即改变，从而界面立即改变
+        //折叠有两个入口：1，点击按钮 2，点击背景。 这两个入口统一调popView的dismiss方法，dismiss里通过闭包设置foldStyle，从而使界面改变
+        switch foldStyle {
+        case .fold:
+            foldStyle = .unfold
+            delegete.xbSegmentControl(self, didPressUnfoldBtnWithBtnStyle: foldStyle)
+            break
+        case .unfold:
+//            foldStyle = .fold  // 展开的情况下，这句代码会使界面立即改变（属性观察器）。页面要求是展开的view完全收回后在更换按钮的图片，所以这句代码在代理里实现
+            delegete.xbSegmentControl(self, didPressUnfoldBtnWithBtnStyle: .fold)
+            break
         }
     }
     
