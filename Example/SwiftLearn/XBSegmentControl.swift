@@ -10,8 +10,13 @@ import UIKit
 import SnapKit
 
 protocol XBSegmentControlDeletate{
-    func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didSelectIndex index : Int )
+    func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didSelectIndex index : Int, source:XBSegmentControlSelecteSegmentSource)
     func xbSegmentControl(_ xbSegmentControl : XBSegmentControl,didPressUnfoldBtnWithBtnStyle foldStyle : XBSegmentControlFoldStyle)
+}
+
+enum XBSegmentControlSelecteSegmentSource{
+    case touchSegmentButton
+    case touchUnfoldCollectionViewCell
 }
 
 enum XBSegmentControlStyle{
@@ -221,23 +226,20 @@ class XBSegmentControl: UIView {
         }
     }
     
-    //点击按钮的事件
+    //点击segment的事件
     @objc private func segmentBtnAction(sender:Any){
         let segmentBtn = sender as! UIButton
         if((segmentBtn.tag-baseTag) != focusIndex){
-            //代理出去
-            delegete.xbSegmentControl(self, didSelectIndex: segmentBtn.tag-baseTag)
-            
-            //设置ScrollView的ContentOffset，使得选中的按钮能够居中显示
-            self.updateScrollViewContentOffset(index: segmentBtn.tag-baseTag)
-            
-            //选中和取消选中 title颜色的切换
-            self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
-            self.setSegmentStyle(index: segmentBtn.tag-baseTag, focusStyle: .focus)
-            focusIndex = segmentBtn.tag-baseTag
+            self.logicSelectSegment(index: segmentBtn.tag-baseTag, source: .touchSegmentButton)
         }
     }
     
+    func logicSelectSegment(index:Int,source:XBSegmentControlSelecteSegmentSource){
+        delegete.xbSegmentControl(self, didSelectIndex: index,source:source)
+        self.updateSegmentAppearance(nextFocusIndex: index)
+    }
+    
+    //点击展开按钮的事件
     @objc private func foldBtnAction(){
         //展开这有一个入口 ： 点击按钮，foldStyle立即改变，从而界面立即改变
         //折叠有两个入口：1，点击按钮 2，点击背景。 这两个入口统一调popView的dismiss方法，dismiss里通过闭包设置foldStyle，从而使界面改变
@@ -253,6 +255,7 @@ class XBSegmentControl: UIView {
         }
     }
     
+    //根据scrollview的contentoffset.x/screenW，来不停更新滑块的位置
     func updateSlider(percent:CGFloat, source:XBSegmentControlSliderUpdateSourece){
         //设置滑块的位置
         var center : CGPoint = sliderView.center
@@ -264,17 +267,23 @@ class XBSegmentControl: UIView {
         case .touchButton( _): break //点击按钮的源已经在segmentBtnAction里处理
         case .slideScrollView:
             let offset = percent - CGFloat(focusIndex)
-            if fabs(offset) > 0.5{
-                self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
+            if fabs(offset) > 0.5{//scrollview滑动时，本方法会不停的执行，但这个条件会保证下面的代码只执行一次
+                var nextFocusIndex = 0
                 if offset > 0{
-                    focusIndex += 1
+                    nextFocusIndex = focusIndex + 1
                 }else{
-                    focusIndex -= 1
+                    nextFocusIndex = focusIndex - 1
                 }
-                self.setSegmentStyle(index: focusIndex, focusStyle: .focus)
-                self.updateScrollViewContentOffset(index: focusIndex)
+                self.updateSegmentAppearance(nextFocusIndex: nextFocusIndex)
             }
         }
+    }
+    
+    func updateSegmentAppearance(nextFocusIndex:Int){
+        self.setSegmentStyle(index: focusIndex, focusStyle: .normal)
+        self.setSegmentStyle(index: nextFocusIndex, focusStyle: .focus)
+        self.updateScrollViewContentOffset(index: nextFocusIndex)
+        focusIndex = nextFocusIndex
     }
 
     private func setSegmentStyle(index:Int, focusStyle:XBSegmentControlSegmentStyle){

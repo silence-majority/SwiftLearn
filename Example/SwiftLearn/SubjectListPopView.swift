@@ -68,4 +68,48 @@ class SubjectListPopView: BasePopView,UICollectionViewDelegate,UICollectionViewD
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let eventClosure = self.eventClosure{
+            eventClosure(100+indexPath.item)
+        }
+        self.dismiss()
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let lineColor = UIColor.lightGray
+        let lineWidth : CGFloat = 0.5
+
+        let rowCount : Int = (subjectNameArray.count+3)/4
+        let lastRowItemCount = subjectNameArray.count - (rowCount-1)*4
+        for index in 0...rowCount-1{
+            if index == 0{
+                 self.drawLine(starPoint: CGPoint(x: 0, y: CGFloat(index)*screenWidth!/4+1), endPoint: CGPoint(x: collectionView.frame.width, y: CGFloat(index)*screenWidth!/4+1), lineWidth: lineWidth, lineColor: lineColor)
+            }else{
+                 self.drawLine(starPoint: CGPoint(x: 0, y: CGFloat(index)*screenWidth!/4), endPoint: CGPoint(x: collectionView.frame.width, y: CGFloat(index)*screenWidth!/4), lineWidth: lineWidth, lineColor: lineColor)
+            }
+        }
+        
+        for index in 1...3{
+            if index <= lastRowItemCount{
+                self.drawLine(starPoint: CGPoint(x: CGFloat(index)*screenWidth!/4, y: 0), endPoint: CGPoint(x: CGFloat(index)*screenWidth!/4, y: collectionView.frame.height), lineWidth: lineWidth, lineColor: lineColor)
+            }else{
+                self.drawLine(starPoint: CGPoint(x: CGFloat(index)*screenWidth!/4, y: 0), endPoint: CGPoint(x: CGFloat(index)*screenWidth!/4, y: collectionView.frame.height-screenWidth!/4), lineWidth: lineWidth, lineColor: lineColor)
+            }
+        }
+    }
+    
+    func drawLine(starPoint:CGPoint,endPoint:CGPoint,lineWidth:CGFloat,lineColor:UIColor){
+        let path = CGMutablePath()
+        path.move(to: starPoint)
+        path.addLine(to: endPoint)
+        
+        let lineLayer = CAShapeLayer()
+        lineLayer.path = path
+        lineLayer.strokeColor = lineColor.cgColor
+        lineLayer.lineWidth = lineWidth
+        collectionView.layer.addSublayer(lineLayer)
+    }
 }

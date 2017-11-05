@@ -59,12 +59,6 @@ class XBSegmentViewController: UIViewController,XBSegmentControlDeletate,UIScrol
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - XBSegmentControl代理
-    func xbSegmentControl(_ xbSegmentControl: XBSegmentControl, didSelectIndex index: Int) {
-        segmentControlSliderUpdateSoure = .touchButton(buttonIndex: index)
-        scorllView.setContentOffset(CGPoint(x:CGFloat(index)*self.view.frame.width,y:0), animated: true)
-    }
-    
     //MARK: - scrollView delegate
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         segmentControlSliderUpdateSoure = .slideScrollView
@@ -74,17 +68,35 @@ class XBSegmentViewController: UIViewController,XBSegmentControlDeletate,UIScrol
         segmentControl.updateSlider(percent: scrollView.contentOffset.x/self.view.frame.width, source: segmentControlSliderUpdateSoure)
     }
     
+    //MARK: - XBSegmentControl代理
+    func xbSegmentControl(_ xbSegmentControl: XBSegmentControl, didSelectIndex index: Int,source:XBSegmentControlSelecteSegmentSource) {
+        if source == .touchUnfoldCollectionViewCell{
+            self.segmentControl.foldStyle = .fold
+            subjectsPopView?.setAnimationClosure(closure: { (animationId) in
+                if animationId == 1{
+                    self.subjectsPopView?.alpha = 0
+                }
+            })
+        }
+        segmentControlSliderUpdateSoure = .touchButton(buttonIndex: index)
+        scorllView.setContentOffset(CGPoint(x:CGFloat(index)*self.view.frame.width,y:0), animated: true)
+        
+    }
+    
     func xbSegmentControl(_ xbSegmentControl: XBSegmentControl, didPressUnfoldBtnWithBtnStyle foldStyle: XBSegmentControlFoldStyle) {
         switch foldStyle {
         //展开segmentControl
         case .unfold:
-//            subjectsPopView = SubjectListPopView(frame: CGRect(x: 0, y: 44, width: self.view.frame.width, height: self.view.frame.height - 44) )
              subjectsPopView = SubjectListPopView(frame: CGRect(x: 0, y: 44, width: self.view.frame.width, height: self.view.frame.height - 44), subjectNameArr: subVCTitles)
             subjectsPopView?.backgroundAlpha = 0.3
             self.view.insertSubview(subjectsPopView!, belowSubview: segmentControl)
             subjectsPopView!.setEventClosure { (eventId) in
                 if eventId == 0{
                     self.segmentControl.foldStyle = .fold //展开的状态下 点击了半透明遮罩后 折叠segmentControl
+                }
+                if eventId >= 100{
+                
+                    self.segmentControl.logicSelectSegment(index: eventId-100, source: .touchUnfoldCollectionViewCell)
                 }
             }
         //折叠
